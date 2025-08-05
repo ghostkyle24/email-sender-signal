@@ -5,6 +5,9 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
+  // Log do corpo do POST para debug
+  console.log('[WEBHOOK RECEBIDO]', JSON.stringify(req.body));
+
   // Extrair campos do payload da Perfect Pay
   const { token, sale_status_enum, customer } = req.body;
   const email = customer?.email;
