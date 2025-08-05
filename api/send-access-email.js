@@ -5,7 +5,16 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { email, name, status, token, public_token } = req.body;
+  // Extrair campos do payload da Perfect Pay
+  const { token, sale_status_enum, customer } = req.body;
+  const email = customer?.email;
+  const name = customer?.full_name;
+
+  // Traduzir status numérico para texto
+  let status = '';
+  if (sale_status_enum === 2) status = 'approved';
+  else if (sale_status_enum === 5) status = 'rejected';
+  else if (sale_status_enum === 6) status = 'canceled';
 
   // Token especial para mensagem personalizada
   const specialToken = 'e8a3c622941e51e10d48491c5aeabf6c';
@@ -14,7 +23,7 @@ export default async function handler(req, res) {
 
   try {
     // E-mail padrão para pagamento aprovado
-    if (status === 'approved' || status === 'paid') {
+    if (status === 'approved') {
       await resend.emails.send({
         from: 'SignalCheck <noreply@signalcheckapp.store>',
         to: email,
@@ -37,7 +46,7 @@ export default async function handler(req, res) {
     // E-mail personalizado para rejeitado/cancelado e token especial
     if (
       (status === 'canceled' || status === 'rejected') &&
-      (token === specialToken || public_token === specialToken)
+      (token === specialToken)
     ) {
       await resend.emails.send({
         from: 'SignalCheck <noreply@signalcheckapp.store>',
@@ -63,8 +72,8 @@ export default async function handler(req, res) {
                 👉 Final chance with a secret discount:<br>
                 <b>💣 From $14 down to just $9.90 (limited time only)</b>
               </p>
-              <a href="https://go.perfectpay.com.br/PPU38CPTLRL" style="display:inline-block;background:#25d366;color:#fff;font-weight:700;font-size:18px;padding:16px 32px;border-radius:8px;text-decoration:none;box-shadow:0 2px 8px #25d36633;transition:background 0.2s;margin-bottom:16px;">Private reactivation link</a>
-              <p style="color:#b0b0b0;font-size:14px;margin-top:24px;">Once you know the truth... everything changes.</p>
+              <a href="https://go.perfectpay.com.br/PPU38CPTLRL" style="display:inline-block;background:#B2001A;color:#fff;font-weight:700;font-size:18px;padding:16px 32px;border-radius:8px;text-decoration:none;box-shadow:0 2px 8px #B2001A33;transition:background 0.2s;margin-bottom:16px;border: none;">Private reactivation link</a>
+              <p style="color:#444;font-size:14px;margin-top:24px;">Once you know the truth... everything changes.</p>
             </div>
           </div>
         `
@@ -75,7 +84,7 @@ export default async function handler(req, res) {
     // E-mail padrão para rejeitado/cancelado e token padrão
     if (
       (status === 'canceled' || status === 'rejected') &&
-      (token === defaultToken || public_token === defaultToken)
+      (token === defaultToken)
     ) {
       await resend.emails.send({
         from: 'SignalCheck <noreply@signalcheckapp.store>',
@@ -101,20 +110,7 @@ export default async function handler(req, res) {
                 👉 Final chance with a secret discount:<br>
                 <b>💣 From $14 down to just $9.90 (limited time only)</b>
               </p>
-              <a href="https://go.perfectpay.com.br/PPU38CPTPLS" style="
-                display:inline-block;
-                background:#B2001A;
-                color:#fff;
-                font-weight:700;
-                font-size:18px;
-                padding:16px 32px;
-                border-radius:8px;
-                text-decoration:none;
-                box-shadow:0 2px 8px #B2001A33;
-                transition:background 0.2s;
-                margin-bottom:16px;
-                border: none;
-              ">Private reactivation link</a>
+              <a href="https://go.perfectpay.com.br/PPU38CPTPLS" style="display:inline-block;background:#B2001A;color:#fff;font-weight:700;font-size:18px;padding:16px 32px;border-radius:8px;text-decoration:none;box-shadow:0 2px 8px #B2001A33;transition:background 0.2s;margin-bottom:16px;border: none;">Private reactivation link</a>
               <p style="color:#444;font-size:14px;margin-top:24px;">Once you know the truth... everything changes.</p>
             </div>
           </div>
