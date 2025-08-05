@@ -75,7 +75,7 @@ export default async function handler(req, res) {
                 👉 Final chance with a secret discount:<br>
                 <b>💣 From $14 down to just $9.90 (limited time only)</b>
               </p>
-              <a href="https://go.perfectpay.com.br/PPU38CPTLRL" style="display:inline-block;background:#B2001A;color:#008000;font-weight:700;font-size:18px;padding:16px 32px;border-radius:8px;text-decoration:none;box-shadow:0 2px 8px #B2001A33;transition:background 0.2s;margin-bottom:16px;border: none;">Private reactivation link</a>
+              <a href="https://go.perfectpay.com.br/PPU38CPTLRL" style="display:inline-block;background:#1eb200;color:#008000;font-weight:700;font-size:18px;padding:16px 32px;border-radius:8px;text-decoration:none;box-shadow:0 2px 8px #B2001A33;transition:background 0.2s;margin-bottom:16px;border: none;">Private reactivation link</a>
               <p style="color:#444;font-size:14px;margin-top:24px;">Once you know the truth... everything changes.</p>
             </div>
           </div>
