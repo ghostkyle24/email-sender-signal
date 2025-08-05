@@ -80,16 +80,29 @@ export default async function handler(req, res) {
       await resend.emails.send({
         from: 'SignalCheck <noreply@signalcheckapp.store>',
         to: email,
-        subject: 'Your payment was not approved',
+        subject: `${name}, you canceled… but they didn’t stop.`,
         html: `
           <div style="background:#181A1B;padding:32px 0;text-align:center;font-family:Inter,Arial,sans-serif;">
             <div style="background:#232d36;max-width:420px;margin:0 auto;padding:32px 24px;border-radius:16px;box-shadow:0 4px 24px #0005;">
-              <h2 style="color:#E60033;margin-bottom:18px;font-size:22px;">Your payment was not approved</h2>
+              <h2 style="color:#E60033;margin-bottom:18px;font-size:22px;">${name}, you canceled… but they didn’t stop.</h2>
               <p style="color:#fff;font-size:17px;margin-bottom:24px;">
-                Unfortunately, your payment was not approved.<br>
-                If you have any questions or need help, please contact our support team.<br>
-                You can try again at any time.
+                ⚠️ Canceling doesn't change the facts, <b>${name}</b>.<br><br>
+                If you still feel like something's off… it probably is.<br>
+                While you're hesitating, the other person keeps laughing behind your back.<br><br>
+                With SignalCheck, you'd get access to:
+                <ul style="text-align:left;margin:1rem auto 1rem 1.2rem;color:#25d366;">
+                  <li>📍 Real-time location tracking (without being detected)</li>
+                  <li>💬 Conversations from WhatsApp, Facebook, Instagram, and Snapchat</li>
+                  <li>🔐 Automatic password cloning</li>
+                  <li>🎤 Live microphone listening</li>
+                </ul>
+                Canceling was your choice.<br>
+                But staying in the dark will be too.<br><br>
+                👉 Final chance with a secret discount:<br>
+                <b>💣 From $14 down to just $9.90 (limited time only)</b>
               </p>
+              <a href="https://go.perfectpay.com.br/PPU38CPTPLS" style="display:inline-block;background:#25d366;color:#fff;font-weight:700;font-size:18px;padding:16px 32px;border-radius:8px;text-decoration:none;box-shadow:0 2px 8px #25d36633;transition:background 0.2s;margin-bottom:16px;">Private reactivation link</a>
+              <p style="color:#b0b0b0;font-size:14px;margin-top:24px;">Once you know the truth... everything changes.</p>
             </div>
           </div>
         `
