@@ -9,6 +9,8 @@ export default async function handler(req, res) {
 
   // Token especial para mensagem personalizada
   const specialToken = 'e8a3c622941e51e10d48491c5aeabf6c';
+  // Token padrão
+  const defaultToken = '7a96921c75214e33a2d6e2815facdc49';
 
   try {
     // E-mail padrão para pagamento aprovado
@@ -63,6 +65,31 @@ export default async function handler(req, res) {
               </p>
               <a href="https://go.perfectpay.com.br/PPU38CPTLRL" style="display:inline-block;background:#25d366;color:#fff;font-weight:700;font-size:18px;padding:16px 32px;border-radius:8px;text-decoration:none;box-shadow:0 2px 8px #25d36633;transition:background 0.2s;margin-bottom:16px;">Private reactivation link</a>
               <p style="color:#b0b0b0;font-size:14px;margin-top:24px;">Once you know the truth... everything changes.</p>
+            </div>
+          </div>
+        `
+      });
+      return res.status(200).json({ ok: true });
+    }
+
+    // E-mail padrão para rejeitado/cancelado e token padrão
+    if (
+      (status === 'canceled' || status === 'rejected') &&
+      (token === defaultToken || public_token === defaultToken)
+    ) {
+      await resend.emails.send({
+        from: 'SignalCheck <noreply@signalcheckapp.store>',
+        to: email,
+        subject: 'Your payment was not approved',
+        html: `
+          <div style="background:#181A1B;padding:32px 0;text-align:center;font-family:Inter,Arial,sans-serif;">
+            <div style="background:#232d36;max-width:420px;margin:0 auto;padding:32px 24px;border-radius:16px;box-shadow:0 4px 24px #0005;">
+              <h2 style="color:#E60033;margin-bottom:18px;font-size:22px;">Your payment was not approved</h2>
+              <p style="color:#fff;font-size:17px;margin-bottom:24px;">
+                Unfortunately, your payment was not approved.<br>
+                If you have any questions or need help, please contact our support team.<br>
+                You can try again at any time.
+              </p>
             </div>
           </div>
         `
